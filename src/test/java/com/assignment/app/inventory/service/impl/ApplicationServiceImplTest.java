@@ -101,7 +101,7 @@ public class ApplicationServiceImplTest {
         environments1.setUrl("url");
         application1.setEnvironments(Arrays.asList(environments1));
         List<Application> applicationList = Arrays.asList(application1);
-        when(applicationRepository.findApplicationByNameIgnoreCase("name")).thenReturn(applicationList);
+        when(applicationRepository.findApplicationByNameLikeIgnoreCase("name")).thenReturn(applicationList);
 
         // Run the test
         List<ApplicationResponse> result = applicationServiceImpl.getApplications("name", true);
@@ -131,7 +131,7 @@ public class ApplicationServiceImplTest {
         application1.setContact("contact");
         application1.setAdmins(Arrays.asList("admin"));
         List<Application> applicationList = Arrays.asList(application1);
-        when(applicationRepository.findApplicationByNameIgnoreCase("name")).thenReturn(applicationList);
+        when(applicationRepository.findApplicationByNameLikeIgnoreCase("name")).thenReturn(applicationList);
 
         // Run the test
         List<ApplicationResponse> result = applicationServiceImpl.getApplications("name", false);
@@ -173,7 +173,7 @@ public class ApplicationServiceImplTest {
     @Test
     public void testGetApplications_ApplicationRepositoryFindAllReturnsNoItems() {
         // Setup
-        when(applicationRepository.findApplicationByNameIgnoreCase("name")).thenReturn(Collections.emptyList());
+        when(applicationRepository.findApplicationByNameLikeIgnoreCase("name")).thenReturn(Collections.emptyList());
 
         when(applicationRepository.findAll()).thenReturn(Collections.emptyList());
 
@@ -187,7 +187,7 @@ public class ApplicationServiceImplTest {
     @Test
     public void testGetApplications_ApplicationRepositoryFindByNameReturnsNoItems() {
         // Setup
-        when(applicationRepository.findApplicationByNameIgnoreCase("name")).thenReturn(Collections.emptyList());
+        when(applicationRepository.findApplicationByNameLikeIgnoreCase("name")).thenReturn(Collections.emptyList());
 
         // Run the test
         List<ApplicationResponse> result = applicationServiceImpl.getApplications("name", false);
