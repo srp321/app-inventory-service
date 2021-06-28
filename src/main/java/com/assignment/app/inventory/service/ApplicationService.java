@@ -15,6 +15,8 @@ public interface ApplicationService {
 
     List<ApplicationResponse> getApplications(String name, Boolean env);
 
+    ApplicationResponse getApplication(String id, Boolean env);
+
     ApplicationUpdateResponse updateApplication(ApplicationUpdateRequest applicationUpdateRequest, String id, String userId) throws Exception;
 
 }

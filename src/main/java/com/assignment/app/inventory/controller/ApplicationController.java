@@ -54,6 +54,22 @@ public class ApplicationController {
         return new ResponseEntity<>(applicationResponseList, HttpStatus.OK);
     }
 
+    @GetMapping(value = "/applications/{id}", produces = "application/json")
+    public ResponseEntity<?> getApplication(@PathVariable String id,
+                                             @RequestParam(defaultValue = "false") Boolean env) {
+
+        ApplicationResponse applicationResponse;
+        try {
+            log.info("Getting application data");
+            applicationResponse = applicationService.getApplication(id, env);
+        } catch (Exception ex) {
+            log.error("Issue with getting application data: " + ex);
+            return new ResponseEntity<>(ex.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        return new ResponseEntity<>(applicationResponse, HttpStatus.OK);
+    }
+
     @PatchMapping(value = "/applications/{id}", produces = "application/json")
     public ResponseEntity<?> updateApplication(@RequestBody @Valid ApplicationUpdateRequest applicationUpdateRequest,
                                                     @PathVariable String id,

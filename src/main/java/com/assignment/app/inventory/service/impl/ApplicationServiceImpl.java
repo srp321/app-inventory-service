@@ -19,6 +19,7 @@ import org.springframework.util.CollectionUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -46,7 +47,7 @@ public class ApplicationServiceImpl implements ApplicationService {
 
         if (!Objects.isNull(name)) {
             log.info("Fetching Application Data by Name");
-            applicationList = applicationRepository.findApplicationByNameIgnoreCase(name);
+            applicationList = applicationRepository.findApplicationByNameLikeIgnoreCase(name);
         } else {
             log.info("Fetching All Application Data");
             applicationList = applicationRepository.findAll();
@@ -63,6 +64,28 @@ public class ApplicationServiceImpl implements ApplicationService {
         }
 
         return applicationResponseList;
+    }
+
+    @Override
+    @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
+    public ApplicationResponse getApplication(String id, Boolean env) {
+
+        Application application;
+        ApplicationResponse appResponse;
+        log.info("Fetching Application Data by Name");
+        Optional<Application> appOpt = applicationRepository.findById(id);
+        if (appOpt.isPresent()) {
+            application = appOpt.get();
+            appResponse = createAppResponse(application);
+            if (env) {
+                log.info("Mapping Environment details");
+                appResponse.setEnvironments(application.getEnvironments());
+            }
+        } else {
+            return null;
+        }
+
+        return appResponse;
     }
 
     @Override
