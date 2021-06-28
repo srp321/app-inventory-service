@@ -17,6 +17,7 @@ import java.util.List;
 @Slf4j
 @RestController
 @RequestMapping(path = "/v1")
+@CrossOrigin
 public class ApplicationController {
 
     @Autowired
